@@ -1,0 +1,44 @@
+version: '3'
+services:
+  web:
+    container_name: web
+    image: nginx:1.25.2
+    ports:
+      - 8000:80
+    depends_on:
+      - app  
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  app:
+    container_name: app
+    build: ./php
+    volumes:
+      - ./php/html:/var/www/html
+  
+  data:
+    container_name: data
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: nakano
+      POSTGRES_PASSWORD: Kotetsu2010
+      PGPASSWORD: Kotetsu2010
+      POSTGRES_DB: my_data
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 8001:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: nakano7771@ymail.ne.jp
+      PGADMIN_DEFAULT_PASSWORD: Kotetsu2010
+    depends_on:
+      - data
+    volumes:
+      - ./pgadmin/pgadmin:/var/lib/pgadmin
