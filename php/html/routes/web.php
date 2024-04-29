@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/hello/{user_id}', 'Hello@hello');
+
+Route::get('/single', 'SingleActionController');
+
+Route::get('/my', 'MyController@index');
+
+Route::get('/my/detail', 'MyController@detail');
+
+Route::get('/my/get-param/{value?}', 'MyController@get_param');
